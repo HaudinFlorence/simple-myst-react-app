@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@myst-theme/diagrams": "^0.5.21",
-    "@myst-theme/frontmatter": "^0.5.21",
     "@myst-theme/providers": "^0.5.21",
     "@myst-theme/styles": "^0.5.21",
     "@testing-library/jest-dom": "^5.17.0",
@@ -22,7 +20,10 @@
     "react-syntax-highlighter": "latest",
     "tailwindcss": "^3.4.1",
     "vfile": "^5.0.0",
-    "vfile-message": "^3.0.0", "katex":"latest"
+    "vfile-message": "^3.0.0", 
+    "katex":"latest",
+    "@octokit/request": "latest",
+    "fetch-opengraph":"^1.0.36"
   },
   "scripts": {
     "start": "react-scripts start",

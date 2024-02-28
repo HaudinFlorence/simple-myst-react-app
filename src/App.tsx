@@ -7,21 +7,22 @@ import { GenericNode, GenericParent } from "myst-common";
 import { mystToHtml } from "myst-to-html";
 import { VFile } from "vfile";
 import { defaultDirectives } from "myst-directives";
-import { helloDirective } from "./helloDirective";
-import { HELLO_RENDERERS } from "./hello";
+import { helloDirective } from "./directives/helloDirective";
+import { pullRequestDirective } from "./directives/PRDirective";
+import { HELLO_RENDERERS } from "./components/hello";
+import { PULLREQUEST_RENDERERS } from "./components/PR";
 
 import {
   captionParagraphTransform,
-  imageAltTextTransform,
   liftMystDirectivesAndRolesTransform,
   mathTransform,
   mystTargetsTransform,
 } from "myst-transforms";
 
-//import { liftMystDirectivesAndRolesTransform } from "./liftMystDirectivesAndRoles";
-//import { mystTargetsTransform } from "./targets";
-
-const allDirectives = defaultDirectives.concat(helloDirective);
+const allDirectives = defaultDirectives.concat(
+  helloDirective,
+  pullRequestDirective
+);
 
 const customOptions = {
   ...defaultOptions,
@@ -29,17 +30,16 @@ const customOptions = {
 };
 let CUSTOM_RENDERERS: Record<string, NodeRenderer> = Object.assign(
   DEFAULT_RENDERERS,
-  HELLO_RENDERERS
+  HELLO_RENDERERS,
+  PULLREQUEST_RENDERERS
 );
 
 function transformTree(tree: GenericParent) {
   const vfile = new VFile(); // used for logging error messages
 
-  /* Case of figure's directive */
+  /* Case of figure directive*/
   if (
-    tree.children[0].name === "figure" ||
-    tree.children[0].name === "code" ||
-    tree.children[0].name === "image"
+    tree.children[0].name === "figure"
   ) {
     liftMystDirectivesAndRolesTransform(tree);
     mystTargetsTransform(tree);
@@ -47,11 +47,6 @@ function transformTree(tree: GenericParent) {
   /* Case of math's directive */
   if (tree.children[0].name === "math") {
     mathTransform(tree, vfile, { macros: {} });
-  }
-  /* Case of image's directive */
-  if (tree.children[0].name === "image") {
-    imageAltTextTransform(tree);
-    captionParagraphTransform(tree);
   }
   if (tree.children[0].name === "code") {
     captionParagraphTransform(tree);

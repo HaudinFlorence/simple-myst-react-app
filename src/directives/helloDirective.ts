@@ -26,10 +26,11 @@ export const helloDirective: DirectiveSpec = {
   
       children.push({
         type: data.name,
-        value: data.body as string
+        value: data.arg as string
         //value: "hello world!"
       });
     
     return children
   },
 };
+

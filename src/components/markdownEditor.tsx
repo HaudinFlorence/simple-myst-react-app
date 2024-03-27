@@ -55,9 +55,8 @@ export function MarkdownEditor() {
   if (postContent.length === 0) {
     const emptyNode: GenericNode = { type: "paragraph", value: "" };
     tree = { type: "paragraph", children: [emptyNode] };
-  } else {
-    tree = mystParse(postContent, customOptions);
   }
+  tree = mystParse(postContent, customOptions);
   transformTree(tree);
   return (
     <>
@@ -69,9 +68,6 @@ export function MarkdownEditor() {
           value={postContent}
           onChange={(e) => {
             setPostContent(e.target.value);
-            /*if (e.target.value.length === 0) {
-              setPostContent("");
-            }*/
           }}
         />
       </label>

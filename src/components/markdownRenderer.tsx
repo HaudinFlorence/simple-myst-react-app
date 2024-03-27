@@ -1,5 +1,5 @@
 import { GenericNode, GenericParent } from "myst-common";
-import { mystToHtml } from "myst-to-html";
+import { mystToHtml, transform } from "myst-to-html";
 import { NodeRenderer, ThemeProvider } from "@myst-theme/providers";
 import { MyST, DEFAULT_RENDERERS } from "myst-to-react";
 import { HELLO_RENDERERS } from "./hello";
@@ -12,8 +12,9 @@ let CUSTOM_RENDERERS: Record<string, NodeRenderer> = Object.assign(
 );
 
 function DefaultComponent({ node }: { node: GenericNode }) {
-  const specialTypes = ["math", "heading", "list"]  
-  if  (!node.children && !specialTypes.includes(node.type)) return <span>{node.value}</span>;
+  const specialTypes = ["math", "heading", "list"];
+  if (!node.children && !specialTypes.includes(node.type))
+    return <span>{node.value}</span>;
   if (node.type === "math") {
     return (
       <>
@@ -45,8 +46,7 @@ interface IProps {
 }
 
 export function MarkdownRenderer(props: IProps) {
-   
-    return (
+  return (
     <>
       <label>
         <p className="text-instruction-class">
@@ -61,6 +61,5 @@ export function MarkdownRenderer(props: IProps) {
         </div>
       </label>
     </>
-  )
+  );
 }
-

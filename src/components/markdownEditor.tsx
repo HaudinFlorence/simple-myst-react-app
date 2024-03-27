@@ -26,16 +26,24 @@ const customOptions = {
 
 function transformTree(tree: GenericParent) {
   const vfile = new VFile(); // used for logging error messages
-  tree.children.forEach((child) => {
-    if (child.name === "figure") {
+  tree.children.forEach((node) => {
+    if (node.name === "figure") {
       liftMystDirectivesAndRolesTransform(tree);
       mystTargetsTransform(tree);
     }
-    if (child.name === "math" || child.type === "math") {
+    if (node.name === "math" || node.type === "math") {
       mathTransform(tree, vfile, { macros: {} });
     }
-    if (child.name === "code") {
+    if (node.name === "code") {
       captionParagraphTransform(tree);
+    }
+    if (node.type === "paragraph") {
+      if (node.children) {
+        node.children.forEach((child) => {
+          if (child.type === "inlineMath")
+            mathTransform(tree, vfile, { macros: {} });
+        });
+      }
     }
   });
 }
